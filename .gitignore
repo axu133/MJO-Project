@@ -1,0 +1,32 @@
+# Python caches
+__pycache__/
+*.py[cod]
+
+# Virtual environments
+venv/
+env/
+.env/
+.venv/
+*_env/
+
+# Large files and data
+*.pth
+*.pt
+*.h5
+*.hdf5
+*.csv
+*.zip
+*.log
+*.sqlite
+*.db
+
+# Data directories (be careful with this!)
+Data/
+datasets/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# OS files
+.DS_Store
+Thumbs.db
