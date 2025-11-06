@@ -1,0 +1,340 @@
+Loading MDL dataset into memory (NumPy arrays)...
+MDL dataset loaded. Total samples: 387684
+Initial Performance of Untrained Model: 
+Avg Train Loss: 1.8191001209671311, Avg Test Loss: 1.8227390495365756
+Epoch: 1, Avg Train Loss: 0.7864188385274882, Avg Test Loss: 0.5918244290835399, LR: [0.0005]
+Epoch: 2, Avg Train Loss: 0.540478652255218, Avg Test Loss: 0.3734132426205366, LR: [0.0005]
+Epoch: 3, Avg Train Loss: 0.3761989355110536, Avg Test Loss: 0.2500303460869142, LR: [0.0005]
+Epoch: 4, Avg Train Loss: 0.28138954217690676, Avg Test Loss: 0.18957739222254286, LR: [0.0005]
+Epoch: 5, Avg Train Loss: 0.2296994220998852, Avg Test Loss: 0.16861601154117986, LR: [0.0005]
+Epoch: 6, Avg Train Loss: 0.19522711482891755, Avg Test Loss: 0.14386409639661285, LR: [0.0005]
+Epoch: 7, Avg Train Loss: 0.17176398345375732, Avg Test Loss: 0.1216862280497127, LR: [0.0005]
+Epoch: 8, Avg Train Loss: 0.1539541940425366, Avg Test Loss: 0.12143083127119612, LR: [0.0005]
+Epoch: 9, Avg Train Loss: 0.13984695210954057, Avg Test Loss: 0.11060375609840506, LR: [0.0005]
+Epoch: 10, Avg Train Loss: 0.12844388848559446, Avg Test Loss: 0.10026107786598146, LR: [0.0005]
+Epoch: 11, Avg Train Loss: 0.11932601269234264, Avg Test Loss: 0.08858844996451774, LR: [0.0005]
+Epoch: 12, Avg Train Loss: 0.11116343243625357, Avg Test Loss: 0.08744040151328639, LR: [0.0005]
+Epoch: 13, Avg Train Loss: 0.10458009446732383, Avg Test Loss: 0.08660941702341327, LR: [0.0005]
+Epoch: 14, Avg Train Loss: 0.09851200704492259, Avg Test Loss: 0.07868550337165268, LR: [0.0005]
+Epoch: 15, Avg Train Loss: 0.09322069212939653, Avg Test Loss: 0.06741867985651943, LR: [0.0005]
+Epoch: 16, Avg Train Loss: 0.08906921332718756, Avg Test Loss: 0.06868010786668559, LR: [0.0005]
+Epoch: 17, Avg Train Loss: 0.08491973107999719, Avg Test Loss: 0.06249583572404991, LR: [0.0005]
+Epoch: 18, Avg Train Loss: 0.0811951777451191, Avg Test Loss: 0.07605267142914758, LR: [0.0005]
+Epoch: 19, Avg Train Loss: 0.07806266997179574, Avg Test Loss: 0.06243911475617316, LR: [0.0005]
+Epoch: 20, Avg Train Loss: 0.07525904818503037, Avg Test Loss: 0.05916117923261595, LR: [0.0005]
+Epoch: 21, Avg Train Loss: 0.07261260348752611, Avg Test Loss: 0.05518979206100083, LR: [0.0005]
+Epoch: 22, Avg Train Loss: 0.06973105976289015, Avg Test Loss: 0.05633580014574546, LR: [0.0005]
+Epoch: 23, Avg Train Loss: 0.06796569929509437, Avg Test Loss: 0.051381804304729196, LR: [0.0005]
+Epoch: 24, Avg Train Loss: 0.06591883540833736, Avg Test Loss: 0.05017249136233293, LR: [0.0005]
+Epoch: 25, Avg Train Loss: 0.06357744668395642, Avg Test Loss: 0.04600343122706398, LR: [0.0005]
+Epoch: 26, Avg Train Loss: 0.06187836794016234, Avg Test Loss: 0.04820076407001655, LR: [0.0005]
+Epoch: 27, Avg Train Loss: 0.06000763798075126, Avg Test Loss: 0.04970100343041413, LR: [0.0005]
+Epoch: 28, Avg Train Loss: 0.058725511062915, Avg Test Loss: 0.045552046382552745, LR: [0.0005]
+Epoch: 29, Avg Train Loss: 0.057242181483500645, Avg Test Loss: 0.04304036540495066, LR: [0.0005]
+Epoch: 30, Avg Train Loss: 0.05575786710477322, Avg Test Loss: 0.040244946654380394, LR: [0.0005]
+Epoch: 31, Avg Train Loss: 0.054685789475474, Avg Test Loss: 0.044923771425570226, LR: [0.0005]
+Epoch: 32, Avg Train Loss: 0.05323862363200982, Avg Test Loss: 0.04048789356502468, LR: [0.0005]
+Epoch: 33, Avg Train Loss: 0.05192421310862153, Avg Test Loss: 0.04074145856715867, LR: [0.0005]
+Epoch: 34, Avg Train Loss: 0.05108517724068612, Avg Test Loss: 0.04094448567087677, LR: [0.0005]
+Epoch: 35, Avg Train Loss: 0.050108934817686704, Avg Test Loss: 0.0388509255867341, LR: [0.0005]
+Epoch: 36, Avg Train Loss: 0.04930112612663746, Avg Test Loss: 0.04195151464975847, LR: [0.0005]
+Epoch: 37, Avg Train Loss: 0.04806120910834764, Avg Test Loss: 0.03533613303743082, LR: [0.0005]
+Epoch: 38, Avg Train Loss: 0.047332996993070926, Avg Test Loss: 0.0337055091791192, LR: [0.0005]
+Epoch: 39, Avg Train Loss: 0.046393681973817755, Avg Test Loss: 0.03412441592576351, LR: [0.0005]
+Epoch: 40, Avg Train Loss: 0.045502770720453084, Avg Test Loss: 0.03747411401195571, LR: [0.0005]
+Epoch: 41, Avg Train Loss: 0.04508189847413051, Avg Test Loss: 0.030602042346774324, LR: [0.0005]
+Epoch: 42, Avg Train Loss: 0.04400483041658701, Avg Test Loss: 0.030434320109799014, LR: [0.0005]
+Epoch: 43, Avg Train Loss: 0.043399208150818575, Avg Test Loss: 0.0348970925118687, LR: [0.0005]
+Epoch: 44, Avg Train Loss: 0.04253794912102048, Avg Test Loss: 0.03272027746947154, LR: [0.0005]
+Epoch: 45, Avg Train Loss: 0.04191017080239379, Avg Test Loss: 0.03003738788007388, LR: [0.0005]
+Epoch: 46, Avg Train Loss: 0.04138912576956764, Avg Test Loss: 0.03243102628139084, LR: [0.0005]
+Epoch: 47, Avg Train Loss: 0.040990311191666184, Avg Test Loss: 0.03340261393515814, LR: [0.0005]
+Epoch: 48, Avg Train Loss: 0.04022275024630388, Avg Test Loss: 0.031072126524217786, LR: [0.0005]
+Epoch: 49, Avg Train Loss: 0.03965729643407972, Avg Test Loss: 0.03423492475332875, LR: [0.0005]
+Epoch: 50, Avg Train Loss: 0.03924920980193933, Avg Test Loss: 0.030840734647537543, LR: [0.0005]
+Epoch: 51, Avg Train Loss: 0.0386333804580496, Avg Test Loss: 0.03043530740180923, LR: [0.00025]
+Epoch: 52, Avg Train Loss: 0.030706850624339123, Avg Test Loss: 0.024172447781643704, LR: [0.00025]
+Epoch: 53, Avg Train Loss: 0.028446722651424467, Avg Test Loss: 0.02072046748282571, LR: [0.00025]
+Epoch: 54, Avg Train Loss: 0.027774249743110633, Avg Test Loss: 0.021731830014616205, LR: [0.00025]
+Epoch: 55, Avg Train Loss: 0.02720081297680009, Avg Test Loss: 0.02081903949083525, LR: [0.00025]
+Epoch: 56, Avg Train Loss: 0.026898857632704977, Avg Test Loss: 0.02226650326363103, LR: [0.00025]
+Epoch: 57, Avg Train Loss: 0.026507792581589345, Avg Test Loss: 0.02034934744523626, LR: [0.00025]
+Epoch: 58, Avg Train Loss: 0.026169495882377047, Avg Test Loss: 0.021753491976192328, LR: [0.00025]
+Epoch: 59, Avg Train Loss: 0.02581624755540654, Avg Test Loss: 0.019003816612948216, LR: [0.00025]
+Epoch: 60, Avg Train Loss: 0.025590404320887602, Avg Test Loss: 0.020250224039051537, LR: [0.00025]
+Epoch: 61, Avg Train Loss: 0.02530576785647725, Avg Test Loss: 0.02051749153065607, LR: [0.00025]
+Epoch: 62, Avg Train Loss: 0.02517730216166841, Avg Test Loss: 0.019343795533787442, LR: [0.00025]
+Epoch: 63, Avg Train Loss: 0.024986102432157906, Avg Test Loss: 0.018766622172375087, LR: [0.00025]
+Epoch: 64, Avg Train Loss: 0.024702423244534505, Avg Test Loss: 0.019428329367928685, LR: [0.00025]
+Epoch: 65, Avg Train Loss: 0.024583895225986297, Avg Test Loss: 0.019607334502343546, LR: [0.00025]
+Epoch: 66, Avg Train Loss: 0.024342966062124705, Avg Test Loss: 0.020393988729255526, LR: [0.00025]
+Epoch: 67, Avg Train Loss: 0.024227618071578742, Avg Test Loss: 0.018050735769866037, LR: [0.00025]
+Epoch: 68, Avg Train Loss: 0.02395457184938565, Avg Test Loss: 0.017301347865120113, LR: [0.00025]
+Epoch: 69, Avg Train Loss: 0.023885303137331934, Avg Test Loss: 0.01763406763937144, LR: [0.00025]
+Epoch: 70, Avg Train Loss: 0.02365125265078553, Avg Test Loss: 0.018007952426436723, LR: [0.00025]
+Epoch: 71, Avg Train Loss: 0.023556135693682017, Avg Test Loss: 0.01838797160428651, LR: [0.00025]
+Epoch: 72, Avg Train Loss: 0.023276262063790337, Avg Test Loss: 0.017786033968797153, LR: [0.00025]
+Epoch: 73, Avg Train Loss: 0.023223479105783915, Avg Test Loss: 0.019033639515966594, LR: [0.00025]
+Epoch: 74, Avg Train Loss: 0.0231206297032881, Avg Test Loss: 0.016907647317464285, LR: [0.00025]
+Epoch: 75, Avg Train Loss: 0.022895460100964417, Avg Test Loss: 0.01811047431441858, LR: [0.00025]
+Epoch: 76, Avg Train Loss: 0.022842296145179054, Avg Test Loss: 0.018555718318627516, LR: [0.00025]
+Epoch: 77, Avg Train Loss: 0.0226170630399552, Avg Test Loss: 0.01763466283150145, LR: [0.00025]
+Epoch: 78, Avg Train Loss: 0.022491620270694505, Avg Test Loss: 0.017790050164457883, LR: [0.00025]
+Epoch: 79, Avg Train Loss: 0.022434580933057002, Avg Test Loss: 0.017242623074634027, LR: [0.00025]
+Epoch: 80, Avg Train Loss: 0.022142485013414048, Avg Test Loss: 0.016969470836094316, LR: [0.000125]
+Epoch: 81, Avg Train Loss: 0.019522100907957186, Avg Test Loss: 0.014623255959992382, LR: [0.000125]
+Epoch: 82, Avg Train Loss: 0.018693122767141634, Avg Test Loss: 0.01445160930839697, LR: [0.000125]
+Epoch: 83, Avg Train Loss: 0.018392114230721224, Avg Test Loss: 0.014110936456346847, LR: [0.000125]
+Epoch: 84, Avg Train Loss: 0.018246354330643588, Avg Test Loss: 0.014889134561959741, LR: [0.000125]
+Epoch: 85, Avg Train Loss: 0.01805288291496664, Avg Test Loss: 0.013778612149847371, LR: [0.000125]
+Epoch: 86, Avg Train Loss: 0.017906668663920253, Avg Test Loss: 0.013865922627078482, LR: [0.000125]
+Epoch: 87, Avg Train Loss: 0.017775257333889283, Avg Test Loss: 0.01394143121465227, LR: [0.000125]
+Epoch: 88, Avg Train Loss: 0.017677196489383224, Avg Test Loss: 0.013872919220611011, LR: [0.000125]
+Epoch: 89, Avg Train Loss: 0.017578468069367307, Avg Test Loss: 0.013492561669006083, LR: [0.000125]
+Epoch: 90, Avg Train Loss: 0.017483701455612878, Avg Test Loss: 0.013695424734999814, LR: [0.000125]
+Epoch: 91, Avg Train Loss: 0.017397442244289792, Avg Test Loss: 0.01275236129487593, LR: [0.000125]
+Epoch: 92, Avg Train Loss: 0.017285128886049442, Avg Test Loss: 0.013641573013607034, LR: [0.000125]
+Epoch: 93, Avg Train Loss: 0.017247727917673716, Avg Test Loss: 0.012728574164153633, LR: [0.000125]
+Epoch: 94, Avg Train Loss: 0.017134966069292473, Avg Test Loss: 0.013068362727598542, LR: [0.000125]
+Epoch: 95, Avg Train Loss: 0.017119820015683008, Avg Test Loss: 0.013508608069288284, LR: [0.000125]
+Epoch: 96, Avg Train Loss: 0.0170402674718825, Avg Test Loss: 0.013091957886730917, LR: [0.000125]
+Epoch: 97, Avg Train Loss: 0.016922123892973328, Avg Test Loss: 0.012916021371571211, LR: [0.000125]
+Epoch: 98, Avg Train Loss: 0.016930297548347416, Avg Test Loss: 0.013024373612019368, LR: [0.000125]
+Epoch: 99, Avg Train Loss: 0.016768010302293804, Avg Test Loss: 0.012809550142650858, LR: [6.25e-05]
+Epoch: 100, Avg Train Loss: 0.01568578314791945, Avg Test Loss: 0.01233196673789839, LR: [6.25e-05]
+Epoch: 101, Avg Train Loss: 0.015371693934121728, Avg Test Loss: 0.011707858204283692, LR: [6.25e-05]
+Epoch: 102, Avg Train Loss: 0.015136084342727868, Avg Test Loss: 0.011146984164793388, LR: [6.25e-05]
+Epoch: 103, Avg Train Loss: 0.015083776354874037, Avg Test Loss: 0.011545157816999137, LR: [6.25e-05]
+Epoch: 104, Avg Train Loss: 0.015071225646553308, Avg Test Loss: 0.011904363824103998, LR: [6.25e-05]
+Epoch: 105, Avg Train Loss: 0.01496359086266624, Avg Test Loss: 0.011492206292247252, LR: [6.25e-05]
+Epoch: 106, Avg Train Loss: 0.014877168467494366, Avg Test Loss: 0.01141031127126652, LR: [6.25e-05]
+Epoch: 107, Avg Train Loss: 0.014827892377934812, Avg Test Loss: 0.011714709180228516, LR: [6.25e-05]
+Epoch: 108, Avg Train Loss: 0.014742574558952708, Avg Test Loss: 0.01143131971245925, LR: [3.125e-05]
+Epoch: 109, Avg Train Loss: 0.014282675733236749, Avg Test Loss: 0.010694223910122645, LR: [3.125e-05]
+Epoch: 110, Avg Train Loss: 0.014150127823022348, Avg Test Loss: 0.011028288684889977, LR: [3.125e-05]
+Epoch: 111, Avg Train Loss: 0.014071833113026, Avg Test Loss: 0.0106554960587909, LR: [3.125e-05]
+Epoch: 112, Avg Train Loss: 0.013963364529082936, Avg Test Loss: 0.010544198343614567, LR: [3.125e-05]
+Epoch: 113, Avg Train Loss: 0.013963966693625965, Avg Test Loss: 0.010980216862543744, LR: [3.125e-05]
+Epoch: 114, Avg Train Loss: 0.01393775166518524, Avg Test Loss: 0.010808412070631655, LR: [3.125e-05]
+Epoch: 115, Avg Train Loss: 0.013832686044903668, Avg Test Loss: 0.01073270124875811, LR: [3.125e-05]
+Epoch: 116, Avg Train Loss: 0.013808549873071563, Avg Test Loss: 0.010680049982549573, LR: [3.125e-05]
+Epoch: 117, Avg Train Loss: 0.013792890259924109, Avg Test Loss: 0.011071123275034095, LR: [3.125e-05]
+Epoch: 118, Avg Train Loss: 0.013792285794872607, Avg Test Loss: 0.010657752143413805, LR: [1.5625e-05]
+Epoch: 119, Avg Train Loss: 0.013576395880507972, Avg Test Loss: 0.01065690389306934, LR: [1.5625e-05]
+Epoch: 120, Avg Train Loss: 0.013483213881409313, Avg Test Loss: 0.010662665374885064, LR: [1.5625e-05]
+Epoch: 121, Avg Train Loss: 0.013437224145058631, Avg Test Loss: 0.010417909824177507, LR: [1.5625e-05]
+Epoch: 122, Avg Train Loss: 0.013395192748763414, Avg Test Loss: 0.01034781050340922, LR: [1.5625e-05]
+Epoch: 123, Avg Train Loss: 0.013442284579472736, Avg Test Loss: 0.010463704102252742, LR: [1.5625e-05]
+Epoch: 124, Avg Train Loss: 0.013385112153550075, Avg Test Loss: 0.010601400020684867, LR: [1.5625e-05]
+Epoch: 125, Avg Train Loss: 0.01334510937949386, Avg Test Loss: 0.010247945580660552, LR: [1.5625e-05]
+Epoch: 126, Avg Train Loss: 0.013292388753602852, Avg Test Loss: 0.010696028468929893, LR: [1.5625e-05]
+Epoch: 127, Avg Train Loss: 0.013290662454732614, Avg Test Loss: 0.010451369406728077, LR: [1.5625e-05]
+Epoch: 128, Avg Train Loss: 0.013300031080182134, Avg Test Loss: 0.010187803013555345, LR: [1.5625e-05]
+Epoch: 129, Avg Train Loss: 0.013285568778316258, Avg Test Loss: 0.010035964876105327, LR: [1.5625e-05]
+Epoch: 130, Avg Train Loss: 0.01324184247377244, Avg Test Loss: 0.00991849217479598, LR: [1.5625e-05]
+Epoch: 131, Avg Train Loss: 0.013243147723632566, Avg Test Loss: 0.010299121395084722, LR: [1.5625e-05]
+Epoch: 132, Avg Train Loss: 0.01328671314737967, Avg Test Loss: 0.010489723744675774, LR: [1.5625e-05]
+Epoch: 133, Avg Train Loss: 0.013241508133691989, Avg Test Loss: 0.010239985961083456, LR: [1.5625e-05]
+Epoch: 134, Avg Train Loss: 0.01313311260097656, Avg Test Loss: 0.0102814511910325, LR: [1.5625e-05]
+Epoch: 135, Avg Train Loss: 0.013247343658139312, Avg Test Loss: 0.010676116740705907, LR: [1.5625e-05]
+Epoch: 136, Avg Train Loss: 0.013168373574305454, Avg Test Loss: 0.010479410449929198, LR: [7.8125e-06]
+Epoch: 137, Avg Train Loss: 0.013105796162406773, Avg Test Loss: 0.010004191734216374, LR: [7.8125e-06]
+Epoch: 138, Avg Train Loss: 0.013042997861723624, Avg Test Loss: 0.010241320717051137, LR: [7.8125e-06]
+Epoch: 139, Avg Train Loss: 0.01303255339881672, Avg Test Loss: 0.010163112709156343, LR: [7.8125e-06]
+Epoch: 140, Avg Train Loss: 0.01301472032405625, Avg Test Loss: 0.010227005797991887, LR: [7.8125e-06]
+
+MDL Training Completed. Model saved to Result_01/ViTTIMJO_FiLM_Andrew_MDL_leadTm10-30More_schedulerPlateau_ensm1.pth
+Total OBS samples across all lead times: 45828
+Total OBS samples across all lead times: 45828
+Loading OBS dataset into memory (NumPy arrays)...
+OBS dataset subset loaded. Total samples: 15282
+Loading OBS dataset into memory (NumPy arrays)...
+OBS dataset subset loaded. Total samples: 15273
+Loading OBS dataset into memory (NumPy arrays)...
+OBS dataset subset loaded. Total samples: 15273
+Loading OBS dataset into memory (NumPy arrays)...
+OBS dataset subset loaded. Total samples: 15273
+Loading OBS dataset into memory (NumPy arrays)...
+OBS dataset subset loaded. Total samples: 15282
+Loading OBS dataset into memory (NumPy arrays)...
+OBS dataset subset loaded. Total samples: 15273
+Loading OBS dataset into memory (NumPy arrays)...
+OBS dataset subset loaded. Total samples: 15273
+Loading OBS dataset into memory (NumPy arrays)...
+OBS dataset subset loaded. Total samples: 15273
+Loading OBS dataset into memory (NumPy arrays)...
+OBS dataset subset loaded. Total samples: 15282
+batches per dataset: 127
+Performance Before Training: Avg Train Loss: 0.9769417788716858, Avg Val Loss: 1.0971173408269836
+Epoch: 1, Avg Train Loss: 0.9450913838746737, Avg Val Loss: 1.0630802550024254, LR: [0.0001]
+Epoch: 2, Avg Train Loss: 0.8987309164424293, Avg Val Loss: 1.014015003637817, LR: [0.0001]
+Epoch: 3, Avg Train Loss: 0.8470252933278787, Avg Val Loss: 0.9714969668330296, LR: [0.0001]
+Epoch: 4, Avg Train Loss: 0.7940862824031936, Avg Val Loss: 0.9441630227278689, LR: [0.0001]
+Epoch: 5, Avg Train Loss: 0.7404363857578068, Avg Val Loss: 0.9322630129113051, LR: [0.0001]
+Epoch: 6, Avg Train Loss: 0.6860207663774647, Avg Val Loss: 0.9392551675273996, LR: [0.0001]
+Epoch: 7, Avg Train Loss: 0.6389949734244355, Avg Val Loss: 0.9589474697146756, LR: [0.0001]
+Epoch: 8, Avg Train Loss: 0.5983307423227793, Avg Val Loss: 0.9708891046357079, LR: [0.0001]
+Epoch: 9, Avg Train Loss: 0.5666188257259468, Avg Val Loss: 0.9815206922069245, LR: [0.0001]
+Epoch: 10, Avg Train Loss: 0.5426952124788661, Avg Val Loss: 1.002788130359566, LR: [0.0001]
+Epoch: 11, Avg Train Loss: 0.5173843798447366, Avg Val Loss: 1.0212286348108115, LR: [0.0001]
+Epoch: 12, Avg Train Loss: 0.4961265090825186, Avg Val Loss: 1.0373796048976425, LR: [5e-05]
+Epoch: 13, Avg Train Loss: 0.48665864781830387, Avg Val Loss: 1.0317459347509865, LR: [5e-05]
+Epoch: 14, Avg Train Loss: 0.47380423422197354, Avg Val Loss: 1.0516351710007124, LR: [5e-05]
+Epoch: 15, Avg Train Loss: 0.46714685890838714, Avg Val Loss: 1.053116968886632, LR: [5e-05]
+Epoch: 16, Avg Train Loss: 0.45753436851620033, Avg Val Loss: 1.0583593339939714, LR: [5e-05]
+Epoch: 17, Avg Train Loss: 0.4498959001450619, Avg Val Loss: 1.0646450494389899, LR: [5e-05]
+Epoch: 18, Avg Train Loss: 0.44629645171885934, Avg Val Loss: 1.0728323545053495, LR: [2.5e-05]
+batches per dataset: 127
+Performance Before Training: Avg Train Loss: 0.9907192183814707, Avg Val Loss: 0.9769417758333389
+Epoch: 1, Avg Train Loss: 0.9769947543395867, Avg Val Loss: 0.9596313216380152, LR: [0.0001]
+Epoch: 2, Avg Train Loss: 0.9420121580680383, Avg Val Loss: 0.93287452602945, LR: [0.0001]
+Epoch: 3, Avg Train Loss: 0.8967699710476541, Avg Val Loss: 0.9063061756654617, LR: [0.0001]
+Epoch: 4, Avg Train Loss: 0.8378485335095773, Avg Val Loss: 0.892579041059659, LR: [0.0001]
+Epoch: 5, Avg Train Loss: 0.771714846866816, Avg Val Loss: 0.8953491773355414, LR: [0.0001]
+Epoch: 6, Avg Train Loss: 0.7060256470657008, Avg Val Loss: 0.9199220614858579, LR: [0.0001]
+Epoch: 7, Avg Train Loss: 0.6448566502034918, Avg Val Loss: 0.9517858811517518, LR: [0.0001]
+Epoch: 8, Avg Train Loss: 0.5954070839886267, Avg Val Loss: 0.9633287486410971, LR: [0.0001]
+Epoch: 9, Avg Train Loss: 0.5557062950524071, Avg Val Loss: 0.9988163696145406, LR: [0.0001]
+Epoch: 10, Avg Train Loss: 0.5267191587403443, Avg Val Loss: 1.0190754335340975, LR: [0.0001]
+Epoch: 11, Avg Train Loss: 0.5031041986291491, Avg Val Loss: 1.0346630930806966, LR: [0.0001]
+Epoch: 12, Avg Train Loss: 0.4798663108282346, Avg Val Loss: 1.0522895289635943, LR: [5e-05]
+Epoch: 13, Avg Train Loss: 0.46461855189150714, Avg Val Loss: 1.044809476245122, LR: [5e-05]
+Epoch: 14, Avg Train Loss: 0.4564492781960893, Avg Val Loss: 1.0673304841930589, LR: [5e-05]
+Epoch: 15, Avg Train Loss: 0.44821771315887354, Avg Val Loss: 1.0765020740100841, LR: [5e-05]
+Epoch: 16, Avg Train Loss: 0.44197133618620926, Avg Val Loss: 1.0674435219095728, LR: [5e-05]
+Epoch: 17, Avg Train Loss: 0.43153909415032005, Avg Val Loss: 1.082395692486957, LR: [5e-05]
+Epoch: 18, Avg Train Loss: 0.43078079410685166, Avg Val Loss: 1.0744080251579338, LR: [2.5e-05]
+batches per dataset: 127
+Performance Before Training: Avg Train Loss: 1.0971173363428786, Avg Val Loss: 0.9907192210040282
+Epoch: 1, Avg Train Loss: 1.0546847877525545, Avg Val Loss: 0.9718520149051, LR: [0.0001]
+Epoch: 2, Avg Train Loss: 1.0032050292813333, Avg Val Loss: 0.9464380646402909, LR: [0.0001]
+Epoch: 3, Avg Train Loss: 0.9454745517914729, Avg Val Loss: 0.9267577979744656, LR: [0.0001]
+Epoch: 4, Avg Train Loss: 0.8848153452371198, Avg Val Loss: 0.9098516664211216, LR: [0.0001]
+Epoch: 5, Avg Train Loss: 0.8255085322701267, Avg Val Loss: 0.9028415513602173, LR: [0.0001]
+Epoch: 6, Avg Train Loss: 0.759937391173884, Avg Val Loss: 0.9132950642461245, LR: [0.0001]
+Epoch: 7, Avg Train Loss: 0.7014823791039901, Avg Val Loss: 0.9273946301755865, LR: [0.0001]
+Epoch: 8, Avg Train Loss: 0.6548434299702401, Avg Val Loss: 0.947818086886932, LR: [0.0001]
+Epoch: 9, Avg Train Loss: 0.6128072205959973, Avg Val Loss: 0.95885476428821, LR: [0.0001]
+Epoch: 10, Avg Train Loss: 0.5773846346616417, Avg Val Loss: 0.9770688589488891, LR: [0.0001]
+Epoch: 11, Avg Train Loss: 0.5485019834537384, Avg Val Loss: 0.992741499728135, LR: [0.0001]
+Epoch: 12, Avg Train Loss: 0.5210967220925539, Avg Val Loss: 1.010232457760735, LR: [5e-05]
+Epoch: 13, Avg Train Loss: 0.5084985921696362, Avg Val Loss: 1.0184773107038019, LR: [5e-05]
+Epoch: 14, Avg Train Loss: 0.4927273190424265, Avg Val Loss: 1.0290025192355154, LR: [5e-05]
+Epoch: 15, Avg Train Loss: 0.48179869866087044, Avg Val Loss: 1.0340337965168889, LR: [5e-05]
+Epoch: 16, Avg Train Loss: 0.47560505358337507, Avg Val Loss: 1.0448957512438481, LR: [5e-05]
+Epoch: 17, Avg Train Loss: 0.46897611509627335, Avg Val Loss: 1.0479066388777023, LR: [5e-05]
+Epoch: 18, Avg Train Loss: 0.45685025930974443, Avg Val Loss: 1.0579252576520477, LR: [2.5e-05]
+
+Combined MDL and OBS Transfer Learning Training Completed.
+
+--- Starting Section 3: Final Prediction and Saving ---
+
+Processing Cross-Validation Round 1...
+  Loading model: Result_02/ViTTIMJO_FiLM_Andrew_OBS_leadTm10-30More_schedulerPlateau_ensm1_round1.pth
+  Generating predictions for Train, Validation, and Test sets...
+  Prediction generation complete.
+  Writing results to NetCDF files...
+    - Saved: Result_03/ViTTIMJO_FiLM_Andrew_OBS_leadTm10-30More_schedulerPlateau_ensm1_round1_Prdct_Train_leadTm10.nc
+    - Saved: Result_03/ViTTIMJO_FiLM_Andrew_OBS_leadTm10-30More_schedulerPlateau_ensm1_round1_Prdct_Train_leadTm13.nc
+    - Saved: Result_03/ViTTIMJO_FiLM_Andrew_OBS_leadTm10-30More_schedulerPlateau_ensm1_round1_Prdct_Train_leadTm15.nc
+    - Saved: Result_03/ViTTIMJO_FiLM_Andrew_OBS_leadTm10-30More_schedulerPlateau_ensm1_round1_Prdct_Train_leadTm18.nc
+    - Saved: Result_03/ViTTIMJO_FiLM_Andrew_OBS_leadTm10-30More_schedulerPlateau_ensm1_round1_Prdct_Train_leadTm20.nc
+    - Saved: Result_03/ViTTIMJO_FiLM_Andrew_OBS_leadTm10-30More_schedulerPlateau_ensm1_round1_Prdct_Train_leadTm23.nc
+    - Saved: Result_03/ViTTIMJO_FiLM_Andrew_OBS_leadTm10-30More_schedulerPlateau_ensm1_round1_Prdct_Train_leadTm25.nc
+    - Saved: Result_03/ViTTIMJO_FiLM_Andrew_OBS_leadTm10-30More_schedulerPlateau_ensm1_round1_Prdct_Train_leadTm28.nc
+    - Saved: Result_03/ViTTIMJO_FiLM_Andrew_OBS_leadTm10-30More_schedulerPlateau_ensm1_round1_Prdct_Train_leadTm30.nc
+    - Saved: Result_03/ViTTIMJO_FiLM_Andrew_OBS_leadTm10-30More_schedulerPlateau_ensm1_round1_Prdct_Val_leadTm10.nc
+    - Saved: Result_03/ViTTIMJO_FiLM_Andrew_OBS_leadTm10-30More_schedulerPlateau_ensm1_round1_Prdct_Val_leadTm13.nc
+    - Saved: Result_03/ViTTIMJO_FiLM_Andrew_OBS_leadTm10-30More_schedulerPlateau_ensm1_round1_Prdct_Val_leadTm15.nc
+    - Saved: Result_03/ViTTIMJO_FiLM_Andrew_OBS_leadTm10-30More_schedulerPlateau_ensm1_round1_Prdct_Val_leadTm18.nc
+    - Saved: Result_03/ViTTIMJO_FiLM_Andrew_OBS_leadTm10-30More_schedulerPlateau_ensm1_round1_Prdct_Val_leadTm20.nc
+    - Saved: Result_03/ViTTIMJO_FiLM_Andrew_OBS_leadTm10-30More_schedulerPlateau_ensm1_round1_Prdct_Val_leadTm23.nc
+    - Saved: Result_03/ViTTIMJO_FiLM_Andrew_OBS_leadTm10-30More_schedulerPlateau_ensm1_round1_Prdct_Val_leadTm25.nc
+    - Saved: Result_03/ViTTIMJO_FiLM_Andrew_OBS_leadTm10-30More_schedulerPlateau_ensm1_round1_Prdct_Val_leadTm28.nc
+    - Saved: Result_03/ViTTIMJO_FiLM_Andrew_OBS_leadTm10-30More_schedulerPlateau_ensm1_round1_Prdct_Val_leadTm30.nc
+    - Saved: Result_03/ViTTIMJO_FiLM_Andrew_OBS_leadTm10-30More_schedulerPlateau_ensm1_round1_Prdct_Test_leadTm10.nc
+    - Saved: Result_03/ViTTIMJO_FiLM_Andrew_OBS_leadTm10-30More_schedulerPlateau_ensm1_round1_Prdct_Test_leadTm13.nc
+    - Saved: Result_03/ViTTIMJO_FiLM_Andrew_OBS_leadTm10-30More_schedulerPlateau_ensm1_round1_Prdct_Test_leadTm15.nc
+    - Saved: Result_03/ViTTIMJO_FiLM_Andrew_OBS_leadTm10-30More_schedulerPlateau_ensm1_round1_Prdct_Test_leadTm18.nc
+    - Saved: Result_03/ViTTIMJO_FiLM_Andrew_OBS_leadTm10-30More_schedulerPlateau_ensm1_round1_Prdct_Test_leadTm20.nc
+    - Saved: Result_03/ViTTIMJO_FiLM_Andrew_OBS_leadTm10-30More_schedulerPlateau_ensm1_round1_Prdct_Test_leadTm23.nc
+    - Saved: Result_03/ViTTIMJO_FiLM_Andrew_OBS_leadTm10-30More_schedulerPlateau_ensm1_round1_Prdct_Test_leadTm25.nc
+    - Saved: Result_03/ViTTIMJO_FiLM_Andrew_OBS_leadTm10-30More_schedulerPlateau_ensm1_round1_Prdct_Test_leadTm28.nc
+    - Saved: Result_03/ViTTIMJO_FiLM_Andrew_OBS_leadTm10-30More_schedulerPlateau_ensm1_round1_Prdct_Test_leadTm30.nc
+
+Processing Cross-Validation Round 2...
+  Loading model: Result_02/ViTTIMJO_FiLM_Andrew_OBS_leadTm10-30More_schedulerPlateau_ensm1_round2.pth
+  Generating predictions for Train, Validation, and Test sets...
+  Prediction generation complete.
+  Writing results to NetCDF files...
+    - Saved: Result_03/ViTTIMJO_FiLM_Andrew_OBS_leadTm10-30More_schedulerPlateau_ensm1_round2_Prdct_Train_leadTm10.nc
+    - Saved: Result_03/ViTTIMJO_FiLM_Andrew_OBS_leadTm10-30More_schedulerPlateau_ensm1_round2_Prdct_Train_leadTm13.nc
+    - Saved: Result_03/ViTTIMJO_FiLM_Andrew_OBS_leadTm10-30More_schedulerPlateau_ensm1_round2_Prdct_Train_leadTm15.nc
+    - Saved: Result_03/ViTTIMJO_FiLM_Andrew_OBS_leadTm10-30More_schedulerPlateau_ensm1_round2_Prdct_Train_leadTm18.nc
+    - Saved: Result_03/ViTTIMJO_FiLM_Andrew_OBS_leadTm10-30More_schedulerPlateau_ensm1_round2_Prdct_Train_leadTm20.nc
+    - Saved: Result_03/ViTTIMJO_FiLM_Andrew_OBS_leadTm10-30More_schedulerPlateau_ensm1_round2_Prdct_Train_leadTm23.nc
+    - Saved: Result_03/ViTTIMJO_FiLM_Andrew_OBS_leadTm10-30More_schedulerPlateau_ensm1_round2_Prdct_Train_leadTm25.nc
+    - Saved: Result_03/ViTTIMJO_FiLM_Andrew_OBS_leadTm10-30More_schedulerPlateau_ensm1_round2_Prdct_Train_leadTm28.nc
+    - Saved: Result_03/ViTTIMJO_FiLM_Andrew_OBS_leadTm10-30More_schedulerPlateau_ensm1_round2_Prdct_Train_leadTm30.nc
+    - Saved: Result_03/ViTTIMJO_FiLM_Andrew_OBS_leadTm10-30More_schedulerPlateau_ensm1_round2_Prdct_Val_leadTm10.nc
+    - Saved: Result_03/ViTTIMJO_FiLM_Andrew_OBS_leadTm10-30More_schedulerPlateau_ensm1_round2_Prdct_Val_leadTm13.nc
+    - Saved: Result_03/ViTTIMJO_FiLM_Andrew_OBS_leadTm10-30More_schedulerPlateau_ensm1_round2_Prdct_Val_leadTm15.nc
+    - Saved: Result_03/ViTTIMJO_FiLM_Andrew_OBS_leadTm10-30More_schedulerPlateau_ensm1_round2_Prdct_Val_leadTm18.nc
+    - Saved: Result_03/ViTTIMJO_FiLM_Andrew_OBS_leadTm10-30More_schedulerPlateau_ensm1_round2_Prdct_Val_leadTm20.nc
+    - Saved: Result_03/ViTTIMJO_FiLM_Andrew_OBS_leadTm10-30More_schedulerPlateau_ensm1_round2_Prdct_Val_leadTm23.nc
+    - Saved: Result_03/ViTTIMJO_FiLM_Andrew_OBS_leadTm10-30More_schedulerPlateau_ensm1_round2_Prdct_Val_leadTm25.nc
+    - Saved: Result_03/ViTTIMJO_FiLM_Andrew_OBS_leadTm10-30More_schedulerPlateau_ensm1_round2_Prdct_Val_leadTm28.nc
+    - Saved: Result_03/ViTTIMJO_FiLM_Andrew_OBS_leadTm10-30More_schedulerPlateau_ensm1_round2_Prdct_Val_leadTm30.nc
+    - Saved: Result_03/ViTTIMJO_FiLM_Andrew_OBS_leadTm10-30More_schedulerPlateau_ensm1_round2_Prdct_Test_leadTm10.nc
+    - Saved: Result_03/ViTTIMJO_FiLM_Andrew_OBS_leadTm10-30More_schedulerPlateau_ensm1_round2_Prdct_Test_leadTm13.nc
+    - Saved: Result_03/ViTTIMJO_FiLM_Andrew_OBS_leadTm10-30More_schedulerPlateau_ensm1_round2_Prdct_Test_leadTm15.nc
+    - Saved: Result_03/ViTTIMJO_FiLM_Andrew_OBS_leadTm10-30More_schedulerPlateau_ensm1_round2_Prdct_Test_leadTm18.nc
+    - Saved: Result_03/ViTTIMJO_FiLM_Andrew_OBS_leadTm10-30More_schedulerPlateau_ensm1_round2_Prdct_Test_leadTm20.nc
+    - Saved: Result_03/ViTTIMJO_FiLM_Andrew_OBS_leadTm10-30More_schedulerPlateau_ensm1_round2_Prdct_Test_leadTm23.nc
+    - Saved: Result_03/ViTTIMJO_FiLM_Andrew_OBS_leadTm10-30More_schedulerPlateau_ensm1_round2_Prdct_Test_leadTm25.nc
+    - Saved: Result_03/ViTTIMJO_FiLM_Andrew_OBS_leadTm10-30More_schedulerPlateau_ensm1_round2_Prdct_Test_leadTm28.nc
+    - Saved: Result_03/ViTTIMJO_FiLM_Andrew_OBS_leadTm10-30More_schedulerPlateau_ensm1_round2_Prdct_Test_leadTm30.nc
+
+Processing Cross-Validation Round 3...
+  Loading model: Result_02/ViTTIMJO_FiLM_Andrew_OBS_leadTm10-30More_schedulerPlateau_ensm1_round3.pth
+  Generating predictions for Train, Validation, and Test sets...
+  Prediction generation complete.
+  Writing results to NetCDF files...
+    - Saved: Result_03/ViTTIMJO_FiLM_Andrew_OBS_leadTm10-30More_schedulerPlateau_ensm1_round3_Prdct_Train_leadTm10.nc
+    - Saved: Result_03/ViTTIMJO_FiLM_Andrew_OBS_leadTm10-30More_schedulerPlateau_ensm1_round3_Prdct_Train_leadTm13.nc
+    - Saved: Result_03/ViTTIMJO_FiLM_Andrew_OBS_leadTm10-30More_schedulerPlateau_ensm1_round3_Prdct_Train_leadTm15.nc
+    - Saved: Result_03/ViTTIMJO_FiLM_Andrew_OBS_leadTm10-30More_schedulerPlateau_ensm1_round3_Prdct_Train_leadTm18.nc
+    - Saved: Result_03/ViTTIMJO_FiLM_Andrew_OBS_leadTm10-30More_schedulerPlateau_ensm1_round3_Prdct_Train_leadTm20.nc
+    - Saved: Result_03/ViTTIMJO_FiLM_Andrew_OBS_leadTm10-30More_schedulerPlateau_ensm1_round3_Prdct_Train_leadTm23.nc
+    - Saved: Result_03/ViTTIMJO_FiLM_Andrew_OBS_leadTm10-30More_schedulerPlateau_ensm1_round3_Prdct_Train_leadTm25.nc
+    - Saved: Result_03/ViTTIMJO_FiLM_Andrew_OBS_leadTm10-30More_schedulerPlateau_ensm1_round3_Prdct_Train_leadTm28.nc
+    - Saved: Result_03/ViTTIMJO_FiLM_Andrew_OBS_leadTm10-30More_schedulerPlateau_ensm1_round3_Prdct_Train_leadTm30.nc
+    - Saved: Result_03/ViTTIMJO_FiLM_Andrew_OBS_leadTm10-30More_schedulerPlateau_ensm1_round3_Prdct_Val_leadTm10.nc
+    - Saved: Result_03/ViTTIMJO_FiLM_Andrew_OBS_leadTm10-30More_schedulerPlateau_ensm1_round3_Prdct_Val_leadTm13.nc
+    - Saved: Result_03/ViTTIMJO_FiLM_Andrew_OBS_leadTm10-30More_schedulerPlateau_ensm1_round3_Prdct_Val_leadTm15.nc
+    - Saved: Result_03/ViTTIMJO_FiLM_Andrew_OBS_leadTm10-30More_schedulerPlateau_ensm1_round3_Prdct_Val_leadTm18.nc
+    - Saved: Result_03/ViTTIMJO_FiLM_Andrew_OBS_leadTm10-30More_schedulerPlateau_ensm1_round3_Prdct_Val_leadTm20.nc
+    - Saved: Result_03/ViTTIMJO_FiLM_Andrew_OBS_leadTm10-30More_schedulerPlateau_ensm1_round3_Prdct_Val_leadTm23.nc
+    - Saved: Result_03/ViTTIMJO_FiLM_Andrew_OBS_leadTm10-30More_schedulerPlateau_ensm1_round3_Prdct_Val_leadTm25.nc
+    - Saved: Result_03/ViTTIMJO_FiLM_Andrew_OBS_leadTm10-30More_schedulerPlateau_ensm1_round3_Prdct_Val_leadTm28.nc
+    - Saved: Result_03/ViTTIMJO_FiLM_Andrew_OBS_leadTm10-30More_schedulerPlateau_ensm1_round3_Prdct_Val_leadTm30.nc
+    - Saved: Result_03/ViTTIMJO_FiLM_Andrew_OBS_leadTm10-30More_schedulerPlateau_ensm1_round3_Prdct_Test_leadTm10.nc
+    - Saved: Result_03/ViTTIMJO_FiLM_Andrew_OBS_leadTm10-30More_schedulerPlateau_ensm1_round3_Prdct_Test_leadTm13.nc
+    - Saved: Result_03/ViTTIMJO_FiLM_Andrew_OBS_leadTm10-30More_schedulerPlateau_ensm1_round3_Prdct_Test_leadTm15.nc
+    - Saved: Result_03/ViTTIMJO_FiLM_Andrew_OBS_leadTm10-30More_schedulerPlateau_ensm1_round3_Prdct_Test_leadTm18.nc
+    - Saved: Result_03/ViTTIMJO_FiLM_Andrew_OBS_leadTm10-30More_schedulerPlateau_ensm1_round3_Prdct_Test_leadTm20.nc
+    - Saved: Result_03/ViTTIMJO_FiLM_Andrew_OBS_leadTm10-30More_schedulerPlateau_ensm1_round3_Prdct_Test_leadTm23.nc
+    - Saved: Result_03/ViTTIMJO_FiLM_Andrew_OBS_leadTm10-30More_schedulerPlateau_ensm1_round3_Prdct_Test_leadTm25.nc
+    - Saved: Result_03/ViTTIMJO_FiLM_Andrew_OBS_leadTm10-30More_schedulerPlateau_ensm1_round3_Prdct_Test_leadTm28.nc
+    - Saved: Result_03/ViTTIMJO_FiLM_Andrew_OBS_leadTm10-30More_schedulerPlateau_ensm1_round3_Prdct_Test_leadTm30.nc
+
+Prediction computation and NetCDF writing completed.
+Lead Time: 10, Train Correlation: 0.7810006737709045, Test Correlation: 0.7394782304763794, Val Correlation: 0.7380660772323608
+Lead Time: 13, Train Correlation: 0.7318231463432312, Test Correlation: 0.6714250445365906, Val Correlation: 0.6698846817016602
+Lead Time: 15, Train Correlation: 0.6977439522743225, Test Correlation: 0.6235446929931641, Val Correlation: 0.6216837167739868
+Lead Time: 18, Train Correlation: 0.6506054401397705, Test Correlation: 0.5527945160865784, Val Correlation: 0.5504183173179626
+Lead Time: 20, Train Correlation: 0.6210120916366577, Test Correlation: 0.5066767334938049, Val Correlation: 0.5063068866729736
+Lead Time: 23, Train Correlation: 0.5815811157226562, Test Correlation: 0.4432850480079651, Val Correlation: 0.44916513562202454
+Lead Time: 25, Train Correlation: 0.5549018383026123, Test Correlation: 0.4024519622325897, Val Correlation: 0.41134577989578247
+Lead Time: 28, Train Correlation: 0.509357750415802, Test Correlation: 0.33908963203430176, Val Correlation: 0.3482322692871094
+Lead Time: 30, Train Correlation: 0.47142449021339417, Test Correlation: 0.2955053746700287, Val Correlation: 0.305244117975235
