@@ -24,7 +24,7 @@ torch.manual_seed(seed_num)
 torch.cuda.manual_seed_all(seed_num)
 torch.cuda.is_available()
 device = torch.device("cpu" if not torch.cuda.is_available() else "cuda")
-model_leadTms = "FullField2Shuffle"
+model_leadTms = "FullField2NoCV"
 lead_time_width = 2
 
 # --------------------
@@ -338,7 +338,7 @@ if __name__ == "__main__":
 
     # General setup
 
-    mdl_model_path = mdl_out_dir + f"ViTTIMJO_FiLM_Andrew_MDL_leadTm{model_leadTms}_ensm{seed_num}.pth"
+    mdl_model_path = mdl_out_dir + f"ViTTIMJO_FiLM_Andrew_MDL_leadTmFullField2_ensm{seed_num}.pth"
 
     lat = 30
     lon = 180
@@ -350,39 +350,7 @@ if __name__ == "__main__":
     total_samples = len(obs_dataset)
     print(f"Total OBS samples across all lead times: {total_samples}")
 
-    indices = np.arange(total_samples)
-    np.random.shuffle(indices)
-    
-    # For each lead time, split indices into 3 folds
-    n = len(indices)
-    fold1 = indices[:n//3]
-    fold2 = indices[n//3:2*n//3]
-    fold3 = indices[2*n//3:]
-    folds = [fold1, fold2, fold3] # Each will be a list of indices for fold 1, 2, 3
-
-    # For each round, use one fold as test, one as val, one as train (rotate)
-    train_val_rounds = []
-    train_val_test_rounds = []
-    test_ts = []
-    val_ts = []
-
-    for i in range(3):
-        test_indices = np.array(folds[i])
-        val_indices = np.array(folds[(i+1)%3])
-        train_indices = np.array(folds[(i+2)%3])
-
-        # Create datasets
-        train_dataset = torch.utils.data.Subset(obs_dataset, train_indices)
-        val_dataset = torch.utils.data.Subset(obs_dataset, val_indices)
-        test_dataset = torch.utils.data.Subset(obs_dataset, test_indices)
-
-        train_dataloader = torch.utils.data.DataLoader(train_dataset, batch_size=batch_size, shuffle=True, pin_memory=True, num_workers=4)
-        val_dataloader = torch.utils.data.DataLoader(val_dataset, batch_size=batch_size, shuffle=True, pin_memory=True, num_workers=4)
-        test_dataloader = torch.utils.data.DataLoader(test_dataset, batch_size=batch_size, shuffle=False, pin_memory=True, num_workers=4)
-        test_ts.append(len(test_dataset))
-        val_ts.append(len(val_dataset))
-        train_val_rounds.append([train_dataloader, val_dataloader])
-        train_val_test_rounds.append([train_dataloader, val_dataloader, test_dataloader])
+    obs_train_dataset, obs_test_dataset = torch.utils.data.random_split(obs_dataset, [int(0.8 * total_samples), total_samples - int(0.8 * total_samples)])
         
     # Transfer Learning Training
     lr = 1e-4
@@ -390,132 +358,122 @@ if __name__ == "__main__":
     lr_warmup_length = 5
     compiled_train_losses = []
     compiled_val_losses = []
-    for index, round in enumerate(train_val_rounds):
-        train_losses = []
-        val_losses = []
-        train_dataloader = round[0]
-        val_dataloader = round[1]
-        model = torch.load(mdl_model_path, weights_only=False).to(device)
-        """
-        model.pos_embedding.requires_grad = True
-        for param in model.to_patch_embedding.parameters():
-            param.requires_grad = True
-        for param in model.transformer.norm.parameters():
-            param.requires_grad = True
-        for block in model.transformer.layers[:]:
-            for param in block.parameters():
-                param.requires_grad = True
-        for param in model.decoder_head.parameters():
-            param.requires_grad = True
-        """
-        batches_per_dataset = len(train_dataloader)
-        print(f"batches per dataset: {batches_per_dataset}")
-        optimizer = torch.optim.AdamW(model.parameters(), lr=lr, weight_decay=1e-5)
+    #for index, round in enumerate(train_val_rounds):
         
-        #scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, patience=5, threshold=0.0001, factor=0.5, mode='min')
-        scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=epochs, eta_min = 1e-6)
+    train_losses = []
+    val_losses = []
+    train_dataloader = torch.utils.data.DataLoader(obs_train_dataset, batch_size=batch_size, shuffle=True, pin_memory=False, num_workers=4)
+    val_dataloader = torch.utils.data.DataLoader(obs_test_dataset, batch_size=batch_size, shuffle=True, pin_memory=False, num_workers=4)
+
+    model = torch.load(mdl_model_path, weights_only=False).to(device) 
+    batches_per_dataset = len(train_dataloader)
+    print(f"batches per dataset: {batches_per_dataset}")
+    optimizer = torch.optim.AdamW(model.parameters(), lr=lr, weight_decay=1e-5)
+    
+    #scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, patience=5, threshold=0.0001, factor=0.5, mode='min')
+    scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=epochs, eta_min = 1e-6)
+    
+    """
+    scheduler = torch.optim.lr_scheduler.CosineAnnealingWarmRestarts(
+    optimizer,
+    T_0 = 50,
+    T_mult = 2,
+    eta_min = 1e-7
+    )
+    """
+    
+    loss_fn = torch.nn.MSELoss()
+    earlystopping = EarlyStopping(threshold=0.0001, patience=10)
+    best_validation_loss = float("inf")
+    best_model = None
+    model.eval()
+    
+    with torch.no_grad():
+        total_train_loss = 0.0
+        for batch_data, batch_target in train_dataloader:
+            batch_data = batch_data.to(device)
+            batch_target = batch_target.to(device)
+            if batch_data.ndim == 3:
+                batch_data = batch_data.unsqueeze(1)
+            y = model(batch_data)
+            loss = loss_fn(y, batch_target)
+            total_train_loss += loss.item() * batch_data.size(0)
+        avg_train_loss = total_train_loss / len(train_dataloader.dataset)
+        total_val_loss = 0.0
+        for batch_data, batch_target in val_dataloader:
+            batch_data = batch_data.to(device)
+            batch_target = batch_target.to(device)
+            if batch_data.ndim == 3:
+                batch_data = batch_data.unsqueeze(1)
+            pred_y = model(batch_data)
+            loss = loss_fn(pred_y, batch_target)
+            total_val_loss += loss.item() * batch_data.size(0)
+        avg_val_loss = total_val_loss / len(val_dataloader.dataset)
+        print(f"Performance Before Training: Avg Train Loss: {avg_train_loss}, Avg Val Loss: {avg_val_loss}")
+        train_losses.append(avg_train_loss)
+        val_losses.append(avg_val_loss)
         
-        """
-        scheduler = torch.optim.lr_scheduler.CosineAnnealingWarmRestarts(
-        optimizer,
-        T_0 = 50,
-        T_mult = 2,
-        eta_min = 1e-7
-        )
-        """
-        
-        loss_fn = torch.nn.MSELoss()
-        earlystopping = EarlyStopping(threshold=0.0001, patience=10)
-        best_validation_loss = float("inf")
-        best_model = None
+    for i in range(epochs):
+        total_train_loss = 0.0
+        if i < lr_warmup_length:
+            warmup_lr = lr * (i + 1) / (lr_warmup_length + 1)
+            optimizer = torch.optim.AdamW(model.parameters(), lr=warmup_lr, weight_decay=1e-5)
+        if i == lr_warmup_length:
+            optimizer = torch.optim.AdamW(model.parameters(), lr=lr, weight_decay=1e-5)
+            
+            #scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, patience=5, threshold=0.0001, factor=0.5, mode='min')
+            scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=epochs, eta_min = 1e-6)
+            """
+            scheduler = torch.optim.lr_scheduler.CosineAnnealingWarmRestarts(
+            optimizer,
+            T_0 = 50,
+            T_mult = 2,
+            eta_min = 1e-7
+            )
+            """
+            
+        for batch_data, batch_target in train_dataloader:
+            batch_data = batch_data.to(device)
+            batch_target = batch_target.to(device)
+            if batch_data.ndim == 3:
+                batch_data = batch_data.unsqueeze(1)
+            model.train()
+            y = model(batch_data)
+            loss = loss_fn(y, batch_target)
+            optimizer.zero_grad()
+            loss.backward()
+            optimizer.step()
+            total_train_loss += loss.item() * batch_data.size(0)
+        avg_train_loss = total_train_loss / len(train_dataloader.dataset)
         model.eval()
-        
+        total_val_loss = 0.0
         with torch.no_grad():
-            total_train_loss = 0.0
-            for batch_data, batch_target in train_dataloader:
-                batch_data = batch_data.to(device)
-                batch_target = batch_target.to(device)
-                if batch_data.ndim == 3:
-                    batch_data = batch_data.unsqueeze(1)
-                y = model(batch_data)
-                loss = loss_fn(y, batch_target)
-                total_train_loss += loss.item() * batch_data.size(0)
-            avg_train_loss = total_train_loss / len(train_dataloader.dataset)
-            total_val_loss = 0.0
             for batch_data, batch_target in val_dataloader:
                 batch_data = batch_data.to(device)
-                batch_target = batch_target.to(device)
+                batch_target = batch_target.to(device)    
                 if batch_data.ndim == 3:
-                    batch_data = batch_data.unsqueeze(1)
+                    batch_data = batch_data.unsqueeze(1)    
                 pred_y = model(batch_data)
                 loss = loss_fn(pred_y, batch_target)
                 total_val_loss += loss.item() * batch_data.size(0)
-            avg_val_loss = total_val_loss / len(val_dataloader.dataset)
-            print(f"Performance Before Training: Avg Train Loss: {avg_train_loss}, Avg Val Loss: {avg_val_loss}")
-            train_losses.append(avg_train_loss)
-            val_losses.append(avg_val_loss)
+        avg_val_loss = total_val_loss / len(val_dataloader.dataset)
+        if i >= lr_warmup_length:
+            #scheduler.step(avg_val_loss)
+            scheduler.step()
+        print(f"Epoch: {i + 1}, Avg Train Loss: {avg_train_loss}, Avg Val Loss: {avg_val_loss}, LR: {scheduler.get_last_lr()}")
+        if avg_val_loss < best_validation_loss:
+            best_validation_loss = avg_val_loss
+            best_model = copy.deepcopy(model)
+        train_losses.append(avg_train_loss)
+        val_losses.append(avg_val_loss)
+        
+        #if earlystopping.check_early_stop(val_losses):
+        #    break
             
-        for i in range(epochs):
-            total_train_loss = 0.0
-            if i < lr_warmup_length:
-                warmup_lr = lr * (i + 1) / (lr_warmup_length + 1)
-                optimizer = torch.optim.AdamW(model.parameters(), lr=warmup_lr, weight_decay=1e-5)
-            if i == lr_warmup_length:
-                optimizer = torch.optim.AdamW(model.parameters(), lr=lr, weight_decay=1e-5)
-                
-                #scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, patience=5, threshold=0.0001, factor=0.5, mode='min')
-                scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=epochs, eta_min = 1e-6)
-                """
-                scheduler = torch.optim.lr_scheduler.CosineAnnealingWarmRestarts(
-                optimizer,
-                T_0 = 50,
-                T_mult = 2,
-                eta_min = 1e-7
-                )
-                """
-                
-            for batch_data, batch_target in train_dataloader:
-                batch_data = batch_data.to(device)
-                batch_target = batch_target.to(device)
-                if batch_data.ndim == 3:
-                    batch_data = batch_data.unsqueeze(1)
-                model.train()
-                y = model(batch_data)
-                loss = loss_fn(y, batch_target)
-                optimizer.zero_grad()
-                loss.backward()
-                optimizer.step()
-                total_train_loss += loss.item() * batch_data.size(0)
-            avg_train_loss = total_train_loss / len(train_dataloader.dataset)
-            model.eval()
-            total_val_loss = 0.0
-            with torch.no_grad():
-                for batch_data, batch_target in val_dataloader:
-                    batch_data = batch_data.to(device)
-                    batch_target = batch_target.to(device)    
-                    if batch_data.ndim == 3:
-                        batch_data = batch_data.unsqueeze(1)    
-                    pred_y = model(batch_data)
-                    loss = loss_fn(pred_y, batch_target)
-                    total_val_loss += loss.item() * batch_data.size(0)
-            avg_val_loss = total_val_loss / len(val_dataloader.dataset)
-            if i >= lr_warmup_length:
-                #scheduler.step(avg_val_loss)
-                scheduler.step()
-            print(f"Epoch: {i + 1}, Avg Train Loss: {avg_train_loss}, Avg Val Loss: {avg_val_loss}, LR: {scheduler.get_last_lr()}")
-            if avg_val_loss < best_validation_loss:
-                best_validation_loss = avg_val_loss
-                best_model = copy.deepcopy(model)
-            train_losses.append(avg_train_loss)
-            val_losses.append(avg_val_loss)
-            
-            #if earlystopping.check_early_stop(val_losses):
-            #    break
-                
-        model = best_model
-        model.eval()
-        torch.save(model, obs_out_dir + f"ViTTIMJO_FiLM_Andrew_OBS_leadTm{model_leadTms}_ensm{seed_num}_round{index + 1}.pth")
-        compiled_train_losses.append(train_losses)
-        compiled_val_losses.append(val_losses)
+    model = best_model
+    model.eval()
+    torch.save(model, obs_out_dir + f"ViTTIMJO_FiLM_Andrew_OBS_leadTm{model_leadTms}_ensm{seed_num}_round1.pth")
+    compiled_train_losses.append(train_losses)
+    compiled_val_losses.append(val_losses)
 
     print("\nCombined MDL and OBS Transfer Learning Training Completed.")
