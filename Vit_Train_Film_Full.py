@@ -24,7 +24,7 @@ torch.manual_seed(seed_num)
 torch.cuda.manual_seed_all(seed_num)
 torch.cuda.is_available()
 device = torch.device("cpu" if not torch.cuda.is_available() else "cuda")
-model_leadTms = "FullField2"
+model_leadTms = "FullField2Shuffle"
 lead_time_width = 2
 
 # --------------------
@@ -210,7 +210,7 @@ class EarlyStopping:
             return False
 
 if __name__ == "__main__":
-    
+    """
     # --------------------
     # Section 1: MDL Training
     # --------------------
@@ -331,7 +331,7 @@ if __name__ == "__main__":
 
     del mdl_dataset, train_dataloader, test_dataloader
     import gc; gc.collect()
-    
+    """
     # --------------------
     # Section 2: OBS Transfer Learning (as in ViT Train 2.py)
     # --------------------
@@ -345,14 +345,14 @@ if __name__ == "__main__":
     var = 5
     batch_size = 121
 
-    # Calculate the total number of samples without loading the data
-    # We check the size of the first lead time's PC file and multiply by the number of lead times
-    with Dataset(obs_directory + "CML2025_Step0C_OBS_remapped_90x180_daily_DJFM_nonFltr_PC1.nc") as f:
-        total_samples = len(f.variables["PC1"][:])
+    obs_dataset = OBSDataset(obs_dir=obs_directory, time_dir=time_dir, lead_time=lead_time_width)
+
+    total_samples = len(obs_dataset)
     print(f"Total OBS samples across all lead times: {total_samples}")
 
     indices = np.arange(total_samples)
-
+    np.random.shuffle(indices)
+    
     # For each lead time, split indices into 3 folds
     n = len(indices)
     fold1 = indices[:n//3]
@@ -372,9 +372,9 @@ if __name__ == "__main__":
         train_indices = np.array(folds[(i+2)%3])
 
         # Create datasets
-        train_dataset = OBSDataset(obs_directory, time_dir, lead_time_width, indices=train_indices)
-        val_dataset = OBSDataset(obs_directory, time_dir, lead_time_width, indices=val_indices)
-        test_dataset = OBSDataset(obs_directory, time_dir, lead_time_width, indices=test_indices)
+        train_dataset = torch.utils.data.Subset(obs_dataset, train_indices)
+        val_dataset = torch.utils.data.Subset(obs_dataset, val_indices)
+        test_dataset = torch.utils.data.Subset(obs_dataset, test_indices)
 
         train_dataloader = torch.utils.data.DataLoader(train_dataset, batch_size=batch_size, shuffle=True, pin_memory=True, num_workers=4)
         val_dataloader = torch.utils.data.DataLoader(val_dataset, batch_size=batch_size, shuffle=True, pin_memory=True, num_workers=4)
@@ -396,16 +396,18 @@ if __name__ == "__main__":
         train_dataloader = round[0]
         val_dataloader = round[1]
         model = torch.load(mdl_model_path, weights_only=False).to(device)
-        model.pos_embedding.requires_grad = False
+        """
+        model.pos_embedding.requires_grad = True
         for param in model.to_patch_embedding.parameters():
-            param.requires_grad = False
+            param.requires_grad = True
         for param in model.transformer.norm.parameters():
-            param.requires_grad = False
+            param.requires_grad = True
         for block in model.transformer.layers[:]:
             for param in block.parameters():
-                param.requires_grad = False
+                param.requires_grad = True
         for param in model.decoder_head.parameters():
             param.requires_grad = True
+        """
         batches_per_dataset = len(train_dataloader)
         print(f"batches per dataset: {batches_per_dataset}")
         optimizer = torch.optim.AdamW(model.parameters(), lr=lr, weight_decay=1e-5)
