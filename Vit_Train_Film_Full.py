@@ -344,17 +344,18 @@ if __name__ == "__main__":
     lon = 180
     var = 5
     batch_size = 121
+    train_test_split = .95
 
     obs_dataset = OBSDataset(obs_dir=obs_directory, time_dir=time_dir, lead_time=lead_time_width)
 
     total_samples = len(obs_dataset)
     print(f"Total OBS samples across all lead times: {total_samples}")
 
-    obs_train_dataset, obs_test_dataset = torch.utils.data.random_split(obs_dataset, [int(0.8 * total_samples), total_samples - int(0.8 * total_samples)])
+    obs_train_dataset, obs_test_dataset = torch.utils.data.random_split(obs_dataset, [int(train_test_split * total_samples), total_samples - int(train_test_split * total_samples)])
         
     # Transfer Learning Training
     lr = 1e-4
-    epochs = 300
+    epochs = 500
     lr_warmup_length = 5
     compiled_train_losses = []
     compiled_val_losses = []
