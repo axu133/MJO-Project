@@ -44,8 +44,12 @@ class SpectralConv2d(nn.Module):
 
     def forward(self, x):
         batchsize = x.shape[0]
+        size_x, size_y = x.size(-2), x.size(-1)
+
         #Compute Fourier coeffcients up to factor of e^(- something constant)
-        x_ft = torch.rfft(x, 2, normalized=True, onesided=True)
+        x_ft_new = torch.fft.rfftn(x, dim=[-2, -1], norm='ortho')
+
+        x_ft = torch.stack((x_ft_new.real, x_ft_new.imag), dim=-1)
 
         # Multiply relevant Fourier modes
         out_ft = torch.zeros(batchsize, self.in_channels,  x.size(-2), x.size(-1)//2 + 1, 2, device=x.device)
@@ -54,18 +58,20 @@ class SpectralConv2d(nn.Module):
         out_ft[:, :, -self.modes1:, :self.modes2] = \
             compl_mul2d(x_ft[:, :, -self.modes1:, :self.modes2], self.weights2)
 
+        out_ft_complex = torch.complex(out_ft[..., 0], out_ft[..., 1])
+
         #Return to physical space
-        x = torch.irfft(out_ft, 2, normalized=True, onesided=True, signal_sizes=( x.size(-2), x.size(-1)))
+        x = torch.fft.irfftn(out_ft_complex, s=(size_x, size_y), dim=[-2, -1], norm='ortho')
         return x
 
 class SimpleBlock2d(nn.Module):
-    def __init__(self, modes1, modes2,  width):
+    def __init__(self, modes1, modes2,  width, in_channels=3, out_channels=1):
         super(SimpleBlock2d, self).__init__()
 
         self.modes1 = modes1
         self.modes2 = modes2
         self.width = width
-        self.fc0 = nn.Linear(3, self.width)
+        self.fc0 = nn.Linear(in_channels, self.width)
 
         self.conv0 = SpectralConv2d(self.width, self.width, self.modes1, self.modes2)
         self.conv1 = SpectralConv2d(self.width, self.width, self.modes1, self.modes2)
@@ -82,7 +88,7 @@ class SimpleBlock2d(nn.Module):
 
 
         self.fc1 = nn.Linear(self.width, 128)
-        self.fc2 = nn.Linear(128, 1)
+        self.fc2 = nn.Linear(128, out_channels)
 
     def forward(self, x):
         batchsize = x.shape[0]
@@ -115,15 +121,19 @@ class SimpleBlock2d(nn.Module):
         return x
 
 class Net2d(nn.Module):
-    def __init__(self, modes, width):
+    def __init__(self, modes, width, in_channels=3, out_channels=1):
         super(Net2d, self).__init__()
-
-        self.conv1 = SimpleBlock2d(modes, modes,  width)
+        self.out_channels = out_channels
+        self.conv1 = SimpleBlock2d(modes, modes,  width, in_channels, out_channels)
 
 
     def forward(self, x):
         x = self.conv1(x)
-        return x.squeeze()
+        if self.out_channels == 1:
+            return x.squeeze()
+        else:
+            return x
+
 
 
     def count_params(self):

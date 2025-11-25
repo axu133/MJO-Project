@@ -210,7 +210,7 @@ class EarlyStopping:
             return False
 
 if __name__ == "__main__":
-    """
+    
     # --------------------
     # Section 1: MDL Training
     # --------------------
@@ -235,7 +235,7 @@ if __name__ == "__main__":
         patch_size=5,
         num_classes=2,
         dim=512,
-        depth=10,
+        depth=5,
         heads=8,
         mlp_dim=1024,
         channels=5,
@@ -323,15 +323,17 @@ if __name__ == "__main__":
         #if earlystopping.check_early_stop(test_losses):
         #    break
 
-
+    train_losses, test_losses = np.array(train_losses), np.array(test_losses)
+    mdl_loss_path = mdl_out_dir + f"ViTTIMJO_FiLM_Andrew_MDL_leadTm{model_leadTms}_loss.npz"
+    np.savez(mdl_loss_path, train_loss=train_losses, test_loss=test_losses)
 
     mdl_model_path = mdl_out_dir + f"ViTTIMJO_FiLM_Andrew_MDL_leadTm{model_leadTms}_ensm{seed_num}.pth"
     torch.save(model, mdl_model_path)
     print(f"\nMDL Training Completed. Model saved to {mdl_model_path}")
 
-    del mdl_dataset, train_dataloader, test_dataloader
+    del mdl_dataset, train_dataloader, test_dataloader, train_losses, test_losses
     import gc; gc.collect()
-    """
+    
     # --------------------
     # Section 2: OBS Transfer Learning (as in ViT Train 2.py)
     # --------------------
@@ -357,9 +359,6 @@ if __name__ == "__main__":
     lr = 1e-4
     epochs = 500
     lr_warmup_length = 5
-    compiled_train_losses = []
-    compiled_val_losses = []
-    #for index, round in enumerate(train_val_rounds):
         
     train_losses = []
     val_losses = []
@@ -471,10 +470,12 @@ if __name__ == "__main__":
         #if earlystopping.check_early_stop(val_losses):
         #    break
             
+    train_losses, val_losses = np.array(train_losses), np.array(val_losses)
+    obs_loss_path = obs_out_dir + f"ViTTIMJO_FiLM_Andrew_OBS_leadTm{model_leadTms}_loss.npz"
+    np.savez(obs_loss_path, train_loss=train_losses, test_loss=val_losses)
+            
     model = best_model
     model.eval()
     torch.save(model, obs_out_dir + f"ViTTIMJO_FiLM_Andrew_OBS_leadTm{model_leadTms}_ensm{seed_num}_round1.pth")
-    compiled_train_losses.append(train_losses)
-    compiled_val_losses.append(val_losses)
 
     print("\nCombined MDL and OBS Transfer Learning Training Completed.")

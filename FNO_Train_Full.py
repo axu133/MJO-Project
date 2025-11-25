@@ -25,7 +25,7 @@ torch.manual_seed(seed_num)
 torch.cuda.manual_seed_all(seed_num)
 torch.cuda.is_available()
 device = torch.device("cpu" if not torch.cuda.is_available() else "cuda")
-model_name = "FullField"
+model_name = "MJO_FNO_Andrew_FullField"
 lead_time_width = 2
 
 # --------------------
@@ -119,8 +119,8 @@ class MDLDataset(torch.utils.data.Dataset):
         feature, target, feature_time, target_time = self.valid_pairs[idx]
         
         return (
-            torch.tensor(feature, dtype=torch.float32),
-            torch.tensor(target, dtype=torch.float32),
+            torch.tensor(feature, dtype=torch.float32).permute(1, 2, 0),
+            torch.tensor(target, dtype=torch.float32).permute(1, 2, 0),
         )
 
 class OBSDataset(torch.utils.data.Dataset):
@@ -190,8 +190,8 @@ class OBSDataset(torch.utils.data.Dataset):
         feature, target, feature_time, target_time = self.valid_pairs[idx]
         
         return (
-            torch.tensor(feature, dtype=torch.float32),
-            torch.tensor(target, dtype=torch.float32),
+            torch.tensor(feature, dtype=torch.float32).permute(1, 2, 0),
+            torch.tensor(target, dtype=torch.float32).permute(1, 2, 0),
         )
 
 if __name__ == "__main__":
@@ -218,8 +218,9 @@ if __name__ == "__main__":
 
     modes = 12
     width = 32
+    channels = 5
 
-    model = Net2d(modes, width).to(device)
+    model = Net2d(modes, width, in_channels=channels, out_channels= channels).to(device)
 
     lr = 0.001
     epochs = 500
@@ -239,16 +240,6 @@ if __name__ == "__main__":
         for batch_data, batch_target in train_dataloader:
             batch_data = batch_data.to(device)
             batch_target = batch_target.to(device)
-            if batch_data.ndim == 3:
-                batch_data = batch_data.unsqueeze(1)
-
-            # Get the expected size from the model's configuration
-            expected_h = model.image_height
-            expected_w = model.image_width
-            
-            # Assert that the input data's dimensions match
-            assert batch_data.shape[-2] == expected_h and batch_data.shape[-1] == expected_w, \
-                f"Input data size mismatch! Got {batch_data.shape}, but model expects [B, C, {expected_h}, {expected_w}]"
 
             y = model(batch_data)
             loss = loss_fn(y, batch_target)
@@ -275,8 +266,6 @@ if __name__ == "__main__":
         t1 = default_timer()
         for batch_data, batch_target in train_dataloader:
             batch_data = batch_data.to(device)
-            if batch_data.ndim == 3:
-                batch_data = batch_data.unsqueeze(1)
             batch_target = batch_target.to(device)
 
             y = model(batch_data)
@@ -308,7 +297,7 @@ if __name__ == "__main__":
 
 
 
-    mdl_model_path = mdl_out_dir + f"ViTTIMJO_FNO_Andrew_MDL_{model_name}_ensm{seed_num}.pth"
+    mdl_model_path = mdl_out_dir + f"{model_name}_MDL_ensm{seed_num}.pth"
     torch.save(model, mdl_model_path)
     print(f"\nMDL Training Completed. Model saved to {mdl_model_path}")
 
@@ -321,13 +310,13 @@ if __name__ == "__main__":
 
     # General setup
 
-    mdl_model_path = mdl_out_dir + f"ViTTIMJO_FiLM_Andrew_MDL_leadTmFullField2_ensm{seed_num}.pth"
+    mdl_model_path = mdl_out_dir + f"{model_name}_MDL_ensm{seed_num}.pth"
 
     lat = 30
     lon = 180
     var = 5
     batch_size = 121
-    train_test_split = .95
+    train_test_split = .80
 
     obs_dataset = OBSDataset(obs_dir=obs_directory, time_dir=time_dir, lead_time=lead_time_width)
 
@@ -375,8 +364,6 @@ if __name__ == "__main__":
         for batch_data, batch_target in train_dataloader:
             batch_data = batch_data.to(device)
             batch_target = batch_target.to(device)
-            if batch_data.ndim == 3:
-                batch_data = batch_data.unsqueeze(1)
             y = model(batch_data)
 
             loss = loss_fn(y, batch_target)
@@ -388,8 +375,6 @@ if __name__ == "__main__":
         for batch_data, batch_target in val_dataloader:
             batch_data = batch_data.to(device)
             batch_target = batch_target.to(device)
-            if batch_data.ndim == 3:
-                batch_data = batch_data.unsqueeze(1)
 
             pred_y = model(batch_data)
             loss = loss_fn(pred_y, batch_target)
@@ -422,8 +407,6 @@ if __name__ == "__main__":
         for batch_data, batch_target in train_dataloader:
             batch_data = batch_data.to(device)
             batch_target = batch_target.to(device)
-            if batch_data.ndim == 3:
-                batch_data = batch_data.unsqueeze(1)
             model.train()
             y = model(batch_data)
             loss = loss_fn(y, batch_target)
@@ -431,32 +414,37 @@ if __name__ == "__main__":
             loss.backward()
             optimizer.step()
             total_train_loss += loss.item() * batch_data.size(0)
+
         avg_train_loss = total_train_loss / len(train_dataloader.dataset)
         model.eval()
         total_val_loss = 0.0
+
         with torch.no_grad():
             for batch_data, batch_target in val_dataloader:
                 batch_data = batch_data.to(device)
-                batch_target = batch_target.to(device)    
-                if batch_data.ndim == 3:
-                    batch_data = batch_data.unsqueeze(1)    
+                batch_target = batch_target.to(device)     
                 pred_y = model(batch_data)
                 loss = loss_fn(pred_y, batch_target)
                 total_val_loss += loss.item() * batch_data.size(0)
+
         avg_val_loss = total_val_loss / len(val_dataloader.dataset)
+
         if i >= lr_warmup_length:
             #scheduler.step(avg_val_loss)
             scheduler.step()
+
         print(f"Epoch: {i + 1}, Avg Train Loss: {avg_train_loss}, Avg Val Loss: {avg_val_loss}, LR: {scheduler.get_last_lr()}")
+
         if avg_val_loss < best_validation_loss:
             best_validation_loss = avg_val_loss
             best_model = copy.deepcopy(model)
+
         train_losses.append(avg_train_loss)
         val_losses.append(avg_val_loss)
             
     model = best_model
     model.eval()
-    torch.save(model, obs_out_dir + f"ViTTIMJO_FiLM_Andrew_OBS_leadTm{model_name}_ensm{seed_num}_round1.pth")
+    torch.save(model, obs_out_dir + f"{model_name}_OBS_ensm{seed_num}.pth")
     compiled_train_losses.append(train_losses)
     compiled_val_losses.append(val_losses)
 
