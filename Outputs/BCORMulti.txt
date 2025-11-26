@@ -1,5 +1,0 @@
-Lead Time: 11, Train Correlation: 0.7669293284416199, Test Correlation: 0.7561799883842468
-Lead Time: 12, Train Correlation: 0.7669293284416199, Test Correlation: 0.7561799883842468
-Lead Time: 13, Train Correlation: 0.7669293284416199, Test Correlation: 0.7561799883842468
-Lead Time: 14, Train Correlation: 0.7669293284416199, Test Correlation: 0.7561799883842468
-Lead Time: 15, Train Correlation: 0.7669293284416199, Test Correlation: 0.7561799883842468
