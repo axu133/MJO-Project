@@ -1,9 +1,0 @@
-Loading MDL dataset and processing independent runs...
-MDL raw data loaded. 43076 total entries.
-Found 8 independent runs in the file.
-MDL dataset fully processed. Found 42364 valid input-target pairs across all runs.
-Initial Performance of Untrained Model: 
-Avg Train Loss: 1.544546199270657, Avg Test Loss: 1.547215476695348
-Epoch: 1, Avg Train Loss: 0.7349224316222327, Avg Test Loss: 0.6145608883064797, LR: [0.0009999901402976406]
-Epoch: 2, Avg Train Loss: 0.5477678718311446, Avg Test Loss: 0.5126059364803216, LR: [0.0009999605615798064]
-Epoch: 3, Avg Train Loss: 0.4853953495621681, Avg Test Loss: 0.47610342356462854, LR: [0.0009999112650142142]
