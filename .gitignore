@@ -30,3 +30,9 @@ datasets/
 # OS files
 .DS_Store
 Thumbs.db
+
+# Output Files/Directories
+*.txt
+Result_01/
+Result_02/
+Result_03/
