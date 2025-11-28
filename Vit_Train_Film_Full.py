@@ -235,7 +235,7 @@ if __name__ == "__main__":
         patch_size=5,
         num_classes=2,
         dim=512,
-        depth=5,
+        depth=10,
         heads=8,
         mlp_dim=1024,
         channels=5,
@@ -256,6 +256,9 @@ if __name__ == "__main__":
     # Initial evaluation
     train_losses = []
     test_losses = []
+    best_validation_loss = float("inf")
+    best_model = None
+
     with torch.no_grad():
         model.eval()
         total_train_loss = 0.0
@@ -316,6 +319,9 @@ if __name__ == "__main__":
         avg_test_loss = total_test_loss / len(test_dataloader.dataset)
         train_losses.append(avg_train_loss)
         test_losses.append(avg_test_loss)
+        if avg_test_loss < best_validation_loss:
+            best_validation_loss = avg_test_loss
+            best_model = copy.deepcopy(model)
         #scheduler.step(avg_test_loss)
         scheduler.step()
         print(f"Epoch: {i + 1}, Avg Train Loss: {avg_train_loss}, Avg Test Loss: {avg_test_loss}, LR: {scheduler.get_last_lr()}")
@@ -327,7 +333,13 @@ if __name__ == "__main__":
     mdl_loss_path = mdl_out_dir + f"ViTTIMJO_FiLM_Andrew_MDL_leadTm{model_leadTms}_loss.npz"
     np.savez(mdl_loss_path, train_loss=train_losses, test_loss=test_losses)
 
+    mdl_last_model_path = mdl_out_dir + f"ViTTIMJO_FiLM_Andrew_MDL_leadTm{model_leadTms}_ensm{seed_num}_last.pth"
+
+    torch.save(model, mdl_last_model_path)
+
     mdl_model_path = mdl_out_dir + f"ViTTIMJO_FiLM_Andrew_MDL_leadTm{model_leadTms}_ensm{seed_num}.pth"
+    model = best_model
+    model.eval()
     torch.save(model, mdl_model_path)
     print(f"\nMDL Training Completed. Model saved to {mdl_model_path}")
 
@@ -473,6 +485,8 @@ if __name__ == "__main__":
     train_losses, val_losses = np.array(train_losses), np.array(val_losses)
     obs_loss_path = obs_out_dir + f"ViTTIMJO_FiLM_Andrew_OBS_leadTm{model_leadTms}_loss.npz"
     np.savez(obs_loss_path, train_loss=train_losses, test_loss=val_losses)
+    
+    torch.save(model, obs_out_dir + f"ViTTIMJO_FiLM_Andrew_OBS_leadTm{model_leadTms}_ensm{seed_num}_round1_last.pth")
             
     model = best_model
     model.eval()
