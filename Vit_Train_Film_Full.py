@@ -25,7 +25,8 @@ torch.cuda.manual_seed_all(seed_num)
 torch.cuda.is_available()
 device = torch.device("cpu" if not torch.cuda.is_available() else "cuda")
 model_leadTms = "FullField2NoCV"
-lead_time_width = 2
+lead_time_width = 2       # predict t+2
+num_input_days = 4        # input: t-3, t-2, t-1, t
 
 # --------------------
 # Data Directories
@@ -42,9 +43,10 @@ time_dir = "Data/Time/"
 # --------------------
 
 class MDLDataset(torch.utils.data.Dataset):
-    def __init__(self, mdl_dir, time_dir, lead_time):
+    def __init__(self, mdl_dir, time_dir, lead_time, num_input_days=4):
         print("Loading MDL dataset and processing independent runs...")
         self.width = lead_time
+        self.num_input_days = num_input_days
         
         # Load Data
         variable_names = ["TMQ", "FLUT", "U200", "U850", "TREFHT"]
@@ -85,7 +87,7 @@ class MDLDataset(torch.utils.data.Dataset):
 
             # Find gaps
             chunk_start_idx_seasonal = 0
-            if len(run_times) < 2: continue # Skip if the run is too short
+            if len(run_times) < self.num_input_days + self.width: continue  # need at least 6 days
 
             seasonal_gaps = np.where((run_times[1:] - run_times[:-1]).astype('timedelta64[D]').astype(int) > 1)[0]
             
@@ -98,13 +100,18 @@ class MDLDataset(torch.utils.data.Dataset):
                 season_features = run_features[chunk_start_idx_seasonal:chunk_end_slice]
                 season_times = run_times[chunk_start_idx_seasonal:chunk_end_slice]
                 
-                # Create input-target pairs
+                # Create input-target pairs: input = [t-3, t-2, t-1, t], target = t+2
                 num_in_season = len(season_features)
-                for i in range(num_in_season - self.width): # feature_time, target_time for debugging
-                    feature = season_features[i]
-                    target = season_features[i + self.width]
+                min_length = self.num_input_days + self.width  # need at least 6 days
+                for i in range(max(0, num_in_season - min_length + 1)):
+                    # Stack 4 days along channel: (4, 5, H, W) -> (20, H, W)
+                    feature = np.concatenate(
+                        [season_features[i + k] for k in range(self.num_input_days)],
+                        axis=0
+                    )
+                    target = season_features[i + self.num_input_days - 1 + self.width]  # t+2
                     feature_time = season_times[i]
-                    target_time = season_times[i + self.width]
+                    target_time = season_times[i + self.num_input_days - 1 + self.width]
                     self.valid_pairs.append((feature, target, feature_time, target_time))
                 
                 chunk_start_idx_seasonal = gap_idx_seasonal + 1
@@ -123,9 +130,10 @@ class MDLDataset(torch.utils.data.Dataset):
         )
 
 class OBSDataset(torch.utils.data.Dataset):
-    def __init__(self, obs_dir, time_dir, lead_time, indices=None):
+    def __init__(self, obs_dir, time_dir, lead_time, num_input_days=4, indices=None):
         print("Loading OBS dataset and processing seasonal chunks...")
         self.width = lead_time
+        self.num_input_days = num_input_days
 
         # Load Data
         variable_names = ["tcwv", "olr", "u200", "u850", "trefht"]
@@ -169,13 +177,17 @@ class OBSDataset(torch.utils.data.Dataset):
             chunk_features = all_features[chunk_start_idx:chunk_end_idx]
             chunk_times = self.times[chunk_start_idx:chunk_end_idx]
             
-            # Create input-target pairs
+            # Create input-target pairs: input = [t-3, t-2, t-1, t], target = t+2
             num_in_chunk = len(chunk_features)
-            for i in range(num_in_chunk - self.width): # feature_time, target_time for debugging
-                feature = chunk_features[i]
-                target = chunk_features[i + self.width]
+            min_length = self.num_input_days + self.width
+            for i in range(max(0, num_in_chunk - min_length + 1)):
+                feature = np.concatenate(
+                    [chunk_features[i + k] for k in range(self.num_input_days)],
+                    axis=0
+                )
+                target = chunk_features[i + self.num_input_days - 1 + self.width]
                 feature_time = chunk_times[i]
-                target_time = chunk_times[i + self.width]
+                target_time = chunk_times[i + self.num_input_days - 1 + self.width]
                 self.valid_pairs.append((feature, target, feature_time, target_time))
             
             chunk_start_idx = chunk_end_idx
@@ -216,7 +228,7 @@ if __name__ == "__main__":
     # --------------------
 
     # Load dataset
-    mdl_dataset = MDLDataset(mdl_dir=mdl_directory, time_dir=time_dir, lead_time=lead_time_width)
+    mdl_dataset = MDLDataset(mdl_dir=mdl_directory, time_dir=time_dir, lead_time=lead_time_width, num_input_days=num_input_days)
 
     # Split into training and testing sets
     mdl_total_samples = len(mdl_dataset)
@@ -229,7 +241,7 @@ if __name__ == "__main__":
     train_dataloader = torch.utils.data.DataLoader(mdl_train_dataset, batch_size=batch_size, shuffle=True, pin_memory=False, num_workers=4)
     test_dataloader = torch.utils.data.DataLoader(mdl_test_dataset, batch_size=batch_size, shuffle=False, pin_memory=False, num_workers=4)
 
-    # ViT Model
+    # ViT Model: 4 input days * 5 vars = 20 channels
     model = ViT(
         image_size=(30, 180),
         patch_size=5,
@@ -238,7 +250,7 @@ if __name__ == "__main__":
         depth=10,
         heads=8,
         mlp_dim=1024,
-        channels=5,
+        channels=num_input_days * 5,  # 20: t-3,t-2,t-1,t stacked along channel
         dropout=0.0,
         emb_dropout=0.0
     )
@@ -360,7 +372,7 @@ if __name__ == "__main__":
     batch_size = 121
     train_test_split = .95
 
-    obs_dataset = OBSDataset(obs_dir=obs_directory, time_dir=time_dir, lead_time=lead_time_width)
+    obs_dataset = OBSDataset(obs_dir=obs_directory, time_dir=time_dir, lead_time=lead_time_width, num_input_days=num_input_days)
 
     total_samples = len(obs_dataset)
     print(f"Total OBS samples across all lead times: {total_samples}")
