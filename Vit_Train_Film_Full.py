@@ -24,7 +24,7 @@ torch.manual_seed(seed_num)
 torch.cuda.manual_seed_all(seed_num)
 torch.cuda.is_available()
 device = torch.device("cpu" if not torch.cuda.is_available() else "cuda")
-model_leadTms = "FullField2NoCV"
+model_leadTms = "FullField2Stack"
 lead_time_width = 2       # predict t+2
 num_input_days = 4        # input: t-3, t-2, t-1, t
 
@@ -241,7 +241,7 @@ if __name__ == "__main__":
     train_dataloader = torch.utils.data.DataLoader(mdl_train_dataset, batch_size=batch_size, shuffle=True, pin_memory=False, num_workers=4)
     test_dataloader = torch.utils.data.DataLoader(mdl_test_dataset, batch_size=batch_size, shuffle=False, pin_memory=False, num_workers=4)
 
-    # ViT Model: 4 input days * 5 vars = 20 channels
+    # ViT Model: 4 input days * 5 vars = 20 input channels, predict 5 vars (t+2)
     model = ViT(
         image_size=(30, 180),
         patch_size=5,
@@ -250,7 +250,8 @@ if __name__ == "__main__":
         depth=10,
         heads=8,
         mlp_dim=1024,
-        channels=num_input_days * 5,  # 20: t-3,t-2,t-1,t stacked along channel
+        channels=num_input_days * 5,  # 20: t-3,t-2,t-1,t stacked along channel (input)
+        out_channels=5,               # predict one day of 5 variables (t+2)
         dropout=0.0,
         emb_dropout=0.0
     )

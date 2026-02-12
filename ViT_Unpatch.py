@@ -91,25 +91,61 @@ class Transformer(nn.Module):
         return self.norm(x)
 
 class ViT(nn.Module):
-    def __init__(self, *, image_size, patch_size, num_classes, dim, depth, heads, mlp_dim, pool = 'cls', channels = 3, dim_head = 64, dropout = 0., emb_dropout = 0.):
+    def __init__(
+        self,
+        *,
+        image_size,
+        patch_size,
+        num_classes,
+        dim,
+        depth,
+        heads,
+        mlp_dim,
+        pool='cls',
+        channels=3,
+        out_channels=None,
+        dim_head=64,
+        dropout=0.0,
+        emb_dropout=0.0,
+    ):
+        """
+        Vision Transformer with separate input and output channel dimensions.
+
+        - `channels`: number of input channels
+        - `out_channels`: number of output channels (defaults to `channels` for
+          backwards compatibility)
+        """
         super().__init__()
         self.image_height, self.image_width = pair(image_size)
         self.patch_height, self.patch_width = pair(patch_size)
-        self.channels = channels
+
+        # Separate input and output channels
+        self.in_channels = channels
+        self.out_channels = out_channels if out_channels is not None else channels
 
         image_height, image_width = self.image_height, self.image_width
         patch_height, patch_width = self.patch_height, self.patch_width
 
-        assert image_height % patch_height == 0 and image_width % patch_width == 0, 'Image dimensions must be divisible by the patch size.'
+        assert (
+            image_height % patch_height == 0 and image_width % patch_width == 0
+        ), "Image dimensions must be divisible by the patch size."
 
         num_patches = (image_height // patch_height) * (image_width // patch_width)
-        patch_dim = channels * patch_height * patch_width
-        assert pool in {'cls', 'mean'}, 'pool type must be either cls (cls token) or mean (mean pooling)'
+        patch_dim_in = self.in_channels * patch_height * patch_width
+        patch_dim_out = self.out_channels * patch_height * patch_width
+        assert pool in {
+            "cls",
+            "mean",
+        }, "pool type must be either cls (cls token) or mean (mean pooling)"
 
         self.to_patch_embedding = nn.Sequential(
-            Rearrange('b c (h p1) (w p2) -> b (h w) (p1 p2 c)', p1 = patch_height, p2 = patch_width),
-            nn.LayerNorm(patch_dim),
-            nn.Linear(patch_dim, dim),
+            Rearrange(
+                "b c (h p1) (w p2) -> b (h w) (p1 p2 c)",
+                p1=patch_height,
+                p2=patch_width,
+            ),
+            nn.LayerNorm(patch_dim_in),
+            nn.Linear(patch_dim_in, dim),
             nn.LayerNorm(dim),
         )
 
@@ -118,7 +154,8 @@ class ViT(nn.Module):
 
         self.transformer = Transformer(dim, depth, heads, dim_head, mlp_dim, dropout)
 
-        self.decoder_head = nn.Linear(dim, patch_dim)
+        # Decoder outputs patches corresponding to `out_channels`
+        self.decoder_head = nn.Linear(dim, patch_dim_out)
 
     def forward(self, img):
         x = self.to_patch_embedding(img)
