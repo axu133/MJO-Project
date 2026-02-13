@@ -363,9 +363,7 @@ if __name__ == "__main__":
     # Section 2: OBS Transfer Learning (as in ViT Train 2.py)
     # --------------------
 
-    # General setup
-
-    mdl_model_path = mdl_out_dir + f"ViTTIMJO_FiLM_Andrew_MDL_leadTmFullField2_ensm{seed_num}.pth"
+    mdl_model_path = mdl_out_dir + f"ViTTIMJO_FiLM_Andrew_MDL_leadTm{model_leadTms}_ensm{seed_num}.pth"
 
     lat = 30
     lon = 180
